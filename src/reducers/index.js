@@ -9,6 +9,7 @@ import ConditionReducer from './Promotion/PromotionConditionReducer';
 import ProvinceReducer from './General/ProvinceReducer';
 import authReducer from './authReducer';
 import commonReducer from './commonReducer';
+import uploadReducer from './uploadReducer';
 
 export default combineReducers({
     commonReducer: commonReducer,
@@ -17,5 +18,6 @@ export default combineReducers({
     routerReducer: routerReducer,
     PromotionReducer: PromotionReducer,
     ProvinceReducer: ProvinceReducer,
-    ConditionReducer: ConditionReducer
+    ConditionReducer: ConditionReducer,
+    uploadReducer: uploadReducer
 });

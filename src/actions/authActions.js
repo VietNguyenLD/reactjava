@@ -22,6 +22,7 @@ export const LoginSys = (params) => {
             console.log(response)
             if(response.success == true){
                 localStorage.setItem("promoAuthenticate",response.data.token);
+                localStorage.setItem("UIDD",response.data.userInfo.id);
             }
             dispatch(LoginSuccess(response))
         });
@@ -45,7 +46,7 @@ export function GetCurrentUserSuccess(data) {
 export const GetCurrentUser = (params) => {
     return (dispatch) => {
         dispatch(StartLogin());
-        api.getAll('be-currentUser', params, function (response) {
+        api.getAll('v1/be-currentUser', params, function (response) {
             console.log(response)
             dispatch(GetCurrentUserSuccess(response))
         });

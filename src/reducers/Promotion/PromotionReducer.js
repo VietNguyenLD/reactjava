@@ -112,6 +112,18 @@ export const PromotionReducer =  (state = INIT_STATE, action) => {
       }
     }
 
+    case 'START_EXPORT_BO': {
+      return {
+        ...state, success: null, isLoading: false, dataExport: []
+      }
+    }
+
+    case 'EXPORT_BO_SUCCESS': {
+      return {
+        ...state, success: null, isLoading: true, dataExport: []
+      }
+    }
+
     default:
       return state;
   }

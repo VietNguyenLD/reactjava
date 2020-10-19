@@ -15,18 +15,23 @@ export default {
     //   ],
     // },
     {
+      name:"Báo cáo Bill Online",
+      url:"/reportRevenue",
+      icon:"icon-notebook"
+    },
+    {
       name: 'Quản lý khuyến mãi',
       icon: 'icon-tag',
       children: [
         { name: 'Danh sách khuyến mãi', url: '/promotion', icon: 'icon-credit-card' }
       ]
     },
-    {
-      name: 'Quản lý File',
-      icon: 'icon-tag',
-      children: [
-        { name: 'Quản lý File', url: '/upload', icon: 'icon-credit-card' }
-      ]
-    }
-  ],
+    // {
+    //   name: 'Quản lý File',
+    //   icon: 'icon-tag',
+    //   children: [
+    //     { name: 'Quản lý File', url: '/upload', icon: 'icon-credit-card' }
+    //   ]
+    // }
+  ]
 };

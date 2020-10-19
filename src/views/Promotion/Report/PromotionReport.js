@@ -139,11 +139,14 @@ class PromotionReport extends React.Component {
             rangePicker: new Date(),
             promotionCoupon: [],
             summaryModal: false,
+            filterModal: false,
             listusedModal: false,
-            dataSummary:{},
-            dataUsedCoupon:[],
-            filterStatus:'all',
-            filterQuery:''
+            dataSummary: {},
+            dataUsedCoupon: [],
+            filterStatus: 'all',
+            filterQuery: '',
+            start_at: moment().format('YYYY-MM-DD'),
+            end_at: moment().add(30, "days").format('YYYY-MM-DD'),
 
         }
     }
@@ -184,41 +187,74 @@ class PromotionReport extends React.Component {
         this.setState(prevState => ({
             summaryModal: !prevState.summaryModal
         }))
-        this.props.SummaryPromotion({ promotion_id: this.props.match.params.id});
-        
+        this.props.SummaryPromotion({ promotion_id: this.props.match.params.id });
+
+    }
+
+    toggleFilter = () => {
+        this.setState(prevState => ({
+            filterModal: !prevState.filterModal
+        }));
+    }
+
+    exportExcel = () => {
+        console.log(this.state.start_at, this.state.end_at);
+        let params = {
+            promotion_id: this.props.match.params.id,
+            start_at: this.state.start_at,
+            end_at: this.state.end_at
+        };
+        this.props.ExportUsedCoupon(params);
+        this.setState(prevState => ({
+            filterModal: !prevState.filterModal
+        }));
     }
 
     toggleExportSummary = () => {
-        this.props.ExportUsedCoupon({ promotion_id: this.props.match.params.id})
+
+        this.setState(prevState => ({
+            filterModal: !prevState.filterModal
+        }))
+
+        //this.props.ExportUsedCoupon({ promotion_id: this.props.match.params.id})
     }
 
     toggleListUsed = (coupon_code) => {
-        
+
         this.setState(prevState => ({
             listusedModal: !prevState.listusedModal
         }))
-        if(coupon_code){
-            this.props.ListUsedCoupon({coupon_code: coupon_code,limit:-999});
+        if (coupon_code) {
+            this.props.ListUsedCoupon({ coupon_code: coupon_code, limit: -999 });
         }
+    }
+
+    onChangeDateApply = (date, dateString) => {
+        console.log(date);
+        console.log(dateString);
+        this.setState({
+            start_at: dateString[0],
+            end_at: dateString[1]
+        })
     }
 
     handleChangeStatusCoupon = (data) => {
         this.setState({
-            filterStatus:data
+            filterStatus: data
         })
     }
 
     filterCoupon = () => {
         let params = { promotion_id: this.props.match.params.id, limit: -999 };
-        params.q =  this.state.filterQuery;
+        params.q = this.state.filterQuery;
         params.status = this.state.filterStatus;
-        
+
         console.log(params);
         this.props.ReportPromotion(params);
-        
+
     }
 
-    filterReset = () =>{
+    filterReset = () => {
         let params = { promotion_id: this.props.match.params.id, limit: -999 };
         this.props.ReportPromotion(params);
     }
@@ -290,12 +326,12 @@ class PromotionReport extends React.Component {
                 title: 'Vận đơn áp dụng',
                 dataIndex: 'do_code',
                 render: (text, index) => {
-                    var link = "https://ntlogistics.vn/tra-van-don.html?bill="+index.do_code;
+                    var link = "https://ntlogistics.vn/tra-van-don.html?bill=" + index.do_code;
                     return (
-                    <a href={link} target="_blank">{index.do_code}</a>
+                        <a href={link} target="_blank">{index.do_code}</a>
                     );
                 }
-                
+
             },
             {
                 title: 'Cước chính',
@@ -334,11 +370,43 @@ class PromotionReport extends React.Component {
                             <Col lg="12" md="12" sm="12" style={configStyle}>
                                 <h3 className="float-left">Danh sách coupon khuyến mãi</h3>
                                 <Button className="float-right" color="warning" onClick={() => this.toggleSummary()}>
-                                <i className="icon-chart"></i> Tổng quát
+                                    <i className="icon-chart"></i> Tổng quát
                                 </Button>
 
-                                <Button className="float-right" style={{marginRight:"10px"}} color="success" onClick={() => this.toggleExportSummary()}>
-                                <i className="icon-excel"></i> Xuất báo cáo
+                                <Modal
+                                    isOpen={this.state.filterModal}
+                                    toggle={this.toggleFilter}
+                                    className="modal-dialog-centered modal-lg">
+                                    <ModalHeader toggle={this.filterModal}>
+                                        Thời gian xuất báo cáo
+                                    </ModalHeader>
+                                    <ModalBody>
+                                        <Row>
+                                            <Col lg="6" md="6" sm="12">
+                                                <Label for="bonus" style={{ marginBottom: "10px", padding: "10px" }}>Lọc khoảng thời gian</Label><br />
+                                                <RangePicker
+                                                    format={dateFormat}
+                                                    style={{ width: "100%" }}
+                                                    onChange={this.onChangeDateApply}
+                                                    placeholder={['Từ ngày', 'Đến ngày']}
+                                                />
+                                            </Col>
+                                        </Row>
+
+
+                                    </ModalBody>
+                                    <ModalFooter>
+                                        <Button color="success" onClick={this.exportExcel}>
+                                            Xuất file
+                                        </Button>
+                                        <Button color="success" onClick={this.toggleFilter}>
+                                            Đóng
+                                        </Button>
+                                    </ModalFooter>
+                                </Modal>
+
+                                <Button className="float-right" style={{ marginRight: "10px" }} color="success" onClick={() => this.toggleExportSummary()}>
+                                    <i className="icon-excel"></i> Xuất báo cáo
                                 </Button>
                                 <Modal
                                     isOpen={this.state.summaryModal}
@@ -350,15 +418,15 @@ class PromotionReport extends React.Component {
                                     <ModalBody>
                                         <Row>
                                             <Col lg="6" md="6" sm="12">
-                                                <p><b>Chương trình:</b> {this.state.dataSummary.promotionName?this.state.dataSummary.promotionName: ''}</p>
-                                                <p><b>Tổng số lượng coupon:</b> {numberWithDot(this.state.dataSummary.totalCoupon?this.state.dataSummary.totalCoupon: 0)}</p>
-                                                <p><b>Tổng số lần sử dụng:</b> {numberWithDot(this.state.dataSummary.totalQuantity?this.state.dataSummary.totalQuantity: 0)}</p>
-                                                
+                                                <p><b>Chương trình:</b> {this.state.dataSummary.promotionName ? this.state.dataSummary.promotionName : ''}</p>
+                                                <p><b>Tổng số lượng coupon:</b> {numberWithDot(this.state.dataSummary.totalCoupon ? this.state.dataSummary.totalCoupon : 0)}</p>
+                                                <p><b>Tổng số lần sử dụng:</b> {numberWithDot(this.state.dataSummary.totalQuantity ? this.state.dataSummary.totalQuantity : 0)}</p>
+
                                             </Col>
                                             <Col lg="6" md="6" sm="12">
-                                                <p><b>Tổng số lần đã sử dụng:</b> {numberWithDot(this.state.dataSummary.totalUsed?this.state.dataSummary.totalUsed: 0)}</p>
-                                                <p><b>Đã sử dụng (%):</b> {this.state.dataSummary.percentUsed?this.state.dataSummary.percentUsed: 0}%</p>
-                                                <p><b>Tiền chi cho khuyến mãi:</b> {numberWithDot(this.state.dataSummary.paymentPromo?this.state.dataSummary.paymentPromo: 0)} VNĐ</p>
+                                                <p><b>Tổng số lần đã sử dụng:</b> {numberWithDot(this.state.dataSummary.totalUsed ? this.state.dataSummary.totalUsed : 0)}</p>
+                                                <p><b>Đã sử dụng (%):</b> {this.state.dataSummary.percentUsed ? this.state.dataSummary.percentUsed : 0}%</p>
+                                                <p><b>Tiền chi cho khuyến mãi:</b> {numberWithDot(this.state.dataSummary.paymentPromo ? this.state.dataSummary.paymentPromo : 0)} VNĐ</p>
                                             </Col>
                                         </Row>
 
@@ -381,11 +449,11 @@ class PromotionReport extends React.Component {
                                     <ModalBody>
                                         <Row>
                                             <Col lg="12" md="12" sm="12">
-                                            <Table
-                                                rowKey="id"
-                                                dataSource={this.state.dataUsedCoupon.length > 0 ? this.state.dataUsedCoupon : []}
-                                                columns={columnsUsed}
-                                            />
+                                                <Table
+                                                    rowKey="id"
+                                                    dataSource={this.state.dataUsedCoupon.length > 0 ? this.state.dataUsedCoupon : []}
+                                                    columns={columnsUsed}
+                                                />
                                             </Col>
                                         </Row>
 
@@ -401,7 +469,7 @@ class PromotionReport extends React.Component {
                             <Col lg="12" md="12" sm="12" style={configStyle} >
                                 <Row>
                                     <Col lg="4" md="4" sm="12">
-                                    <Input style={{width: "100%"}} onChange={(event) => this.setState({ filterQuery: event.target.value })} type="text" id="basicInput" placeholder="Tìm mã khuyến mãi" />
+                                        <Input style={{ width: "100%" }} onChange={(event) => this.setState({ filterQuery: event.target.value })} type="text" id="basicInput" placeholder="Tìm mã khuyến mãi" />
                                     </Col>
                                     <Col lg="4" md="4" sm="12">
                                         <Select style={{ width: "100%" }} onChange={this.handleChangeStatusCoupon} placeholder="Lọc trạng thái" >
@@ -411,16 +479,16 @@ class PromotionReport extends React.Component {
                                             <Option value="all">Tất cả</Option>
                                         </Select>
                                     </Col>
-                                    <Col  lg="4" md="4" sm="12">
-                                    <Button className="float-right" color="danger" onClick={() => this.filterReset()}>
-                                        <i className="icon-close"></i> Bỏ lọc
+                                    <Col lg="4" md="4" sm="12">
+                                        <Button className="float-right" color="danger" onClick={() => this.filterReset()}>
+                                            <i className="icon-close"></i> Bỏ lọc
                                     </Button>
-                                    <Button className="float-right" style={{marginRight:"10px"}} color="warning" onClick={() => this.filterCoupon()}>
-                                        <i className="icon-magic-wand"></i> Tìm
+                                        <Button className="float-right" style={{ marginRight: "10px" }} color="warning" onClick={() => this.filterCoupon()}>
+                                            <i className="icon-magic-wand"></i> Tìm
                                     </Button>
                                     </Col>
                                 </Row>
-                            
+
                             </Col>
                             <Col lg="12" md="12" sm="12">
                                 <Table
@@ -446,8 +514,8 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps,
     {
         ExportUsedCoupon,
-        ReportPromotion, 
-        SummaryPromotion, 
+        ReportPromotion,
+        SummaryPromotion,
         ListUsedCoupon
     })
     (PromotionReport);

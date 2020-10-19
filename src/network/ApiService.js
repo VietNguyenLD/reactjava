@@ -81,7 +81,25 @@ export function create(api_name, params, callback) {
   axios.post(_apiUrl, _params, _headers).then(function (response) {
     callback(response.data);
   }).catch(error => {
+    console.log(error)
     catchError(error);
+  });
+}
+
+export function uloadfile(api_name, params, callback) {
+  let _apiUrl = endpoint + api_name;
+  let _authorization = localStorage.getItem(TOKEN);
+  axios.defaults.headers.common['Authorization'] = _authorization;
+  let _params = JSON.stringify(params);
+
+  axios.post(_apiUrl, _params, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  }).then(function (response) {
+    callback(response.data);
+  }).catch(error => {
+    throw (error);
   });
 }
 

@@ -38,7 +38,7 @@ class Login extends Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         const params = {
-          user_name: values.username,
+          username: values.username,
           password: values.password,
         };
         this.props.LoginSys(params);
@@ -58,7 +58,7 @@ class Login extends Component {
 
     const { inProgress, form } = this.props;
     const { getFieldDecorator } = form;
-
+    console.log(this.props)
     return (
       <div className="app flex-row align-items-center">
         <Container>

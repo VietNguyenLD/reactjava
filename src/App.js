@@ -41,7 +41,7 @@ const mapStateToProps = state => {
 
 
 class App extends Component {
-
+  
   componentWillReceiveProps(nextProps) {
     console.log(nextProps);
     if (nextProps.redirectTo) {
@@ -54,21 +54,21 @@ class App extends Component {
 
 
   componentWillMount() {
-    console.log(this.props);
-    const _token = window.localStorage.getItem(TOKEN);
-    let payload = null;
-    if (_token) {
-      agent.setToken(_token); 
-      agent.Auth.current(_token).then(data=>{
-        console.log(data);
-        payload = data.data;
-        this.props.onLoad(payload, _token);
-      });
-    } else {
-      payload = null;
-      this.props.onLoad(payload, '');
-    }
-    // this.props.onLoad(payload, _token);
+    // console.log(this.props);
+    // const _token = window.localStorage.getItem(TOKEN);
+    // let payload = null;
+    // if (_token) {
+    //   agent.setToken(_token); 
+    //   agent.Auth.current(_token).then(data=>{
+    //     console.log(data);
+    //     payload = data.data;
+    //     this.props.onLoad(payload, _token);
+    //   });
+    // } else {
+    //   payload = null;
+    //   this.props.onLoad(payload, '');
+    // }
+    // // this.props.onLoad(payload, _token);
   }
 
   render() {

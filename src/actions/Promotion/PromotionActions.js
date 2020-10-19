@@ -200,6 +200,32 @@ export const ExportUsedCoupon = (params) => {
     };
 };
 
+export function StartExportBO() {
+    return { type: 'START_EXPORT_BO' };
+}
+
+export function ExportBOSuccess(data) {
+    console.log(data);
+    return {
+        type: 'EXPORT_BO_SUCCESS',
+        payload: data.data,
+        success: data.success,
+        message: data.message
+        // last_page: data.paging.last_page,
+    };
+}
+
+export const ExportBOReport = (params) => {
+    return (dispatch) => {
+        dispatch(StartExportBO());
+        api.exportExcel("v1/exportReport", params, function (response) {
+            console.log(response)
+            dispatch(ExportBOSuccess(response))
+        });
+    };
+};
+
+
 
 
 

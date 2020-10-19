@@ -15,7 +15,10 @@ import {
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css"
 import { connect } from 'react-redux';
-import { Spin, DatePicker, Table, Select, Input, InputNumber, Popconfirm, Form, Collapse } from 'antd';
+import {
+    Spin, DatePicker, Table, Select, Input, InputNumber, Popconfirm, Form, Collapse,
+    Checkbox,
+} from 'antd';
 import 'antd/dist/antd.css';
 // import _ from 'lodash'
 import { history } from "../../../history";
@@ -157,20 +160,24 @@ class PromotionCreate extends React.Component {
             listConditionAdd: [],
             type_reduce: "Amount",
             method_generate: "Manual",
-            manualCoupon:"",
+            manualCoupon: "",
             countCoupon: 0,
-            conditionMainFee:{
-                operation:"greater_than",
+            conditionMainFee: {
+                operation: "greater_than",
                 value: 0
             },
-            countTimesPerCount: 0
+            limitPerPartner: 3,
+            countTimesPerCount: 0,
+            applyDeepReduce: false,
+            div_bill: null,
+            increase_percent: null
         }
     }
     componentDidMount() {
         let params = {
         }
         this.props.GetProvinces({});
-        this.props.GetConditions({status:"A"});
+        this.props.GetConditions({ status: "A" });
     }
 
 
@@ -203,18 +210,18 @@ class PromotionCreate extends React.Component {
         }
 
         if (this.props.PromotionReducer.dataCreate !== prevProps.PromotionReducer.dataCreate && this.props.PromotionReducer.dataCreate.length !== 0) {
-            if(this.props.PromotionReducer.success == true){
-                toast.success("Tạo khuyến mãi thành công: "+this.props.PromotionReducer.message);
+            if (this.props.PromotionReducer.success == true) {
+                toast.success("Tạo khuyến mãi thành công: " + this.props.PromotionReducer.message);
                 setTimeout(() => {
                     history.push("/promotion");
                 }, 2000);
-                
-            }else{
-                toast.warn("Tạo khuyến mãi không thành công: "+this.props.PromotionReducer.message);
+
+            } else {
+                toast.warn("Tạo khuyến mãi không thành công: " + this.props.PromotionReducer.message);
             }
             // console.log(this.props.PromotionReducer.dataCreate);
-            
-            
+
+
             // this.setState({
             //     listProvince: this.props.ProvinceReducer.listProvince
             // });
@@ -235,7 +242,7 @@ class PromotionCreate extends React.Component {
     }
 
     onChangeBonus = (value) => {
-        if(value === null){
+        if (value === null) {
             value = 0;
         }
 
@@ -246,7 +253,7 @@ class PromotionCreate extends React.Component {
 
     onChangeNumbGen = (value) => {
 
-        if(value === null){
+        if (value === null) {
             value = 0;
         }
 
@@ -257,7 +264,7 @@ class PromotionCreate extends React.Component {
 
     onChangeMaxBonus = (value) => {
 
-        if(value === null){
+        if (value === null) {
             value = 0;
         }
 
@@ -270,12 +277,24 @@ class PromotionCreate extends React.Component {
     onChangePercentage = (value) => {
         console.log(value);
 
-        if(value === null){
+        if (value === null) {
             value = 0;
         }
-        
+
         this.setState({
             reduce_percent: value
+        });
+    }
+
+    onChangeDeepPercentage = (value) => {
+        this.setState({
+            div_bill: value
+        });
+    }
+
+    onChangeDeepPercent = (value) => {
+        this.setState({
+            increase_percent: value
         });
     }
 
@@ -364,11 +383,11 @@ class PromotionCreate extends React.Component {
         this.setState({
             method_generate: method
         });
-        if(method === "Manual"){
+        if (method === "Manual") {
             this.setState({
                 countCoupon: 0
             });
-        }else{
+        } else {
             this.setState({
                 manualCoupon: ""
             });
@@ -418,15 +437,15 @@ class PromotionCreate extends React.Component {
                         if (this.state.bonus !== 0 && this.state.bonus >= parseFloat(currentItem.value)) {
                             alert("Cước chính phải lớn hơn giá trị giảm");
                             have_error = true;
-                        }else{
+                        } else {
                             this.setState({
-                                conditionMainFee:{
-                                        ...this.state.conditionMainFee,
-                                        value: currentItem.value
+                                conditionMainFee: {
+                                    ...this.state.conditionMainFee,
+                                    value: currentItem.value
                                 }
                             });
                         }
-                        
+
                     }
 
                     can_add = true;
@@ -506,7 +525,7 @@ class PromotionCreate extends React.Component {
     }
 
     handleSubmit = e => {
-        
+
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
@@ -517,26 +536,26 @@ class PromotionCreate extends React.Component {
                     return;
                 }
 
-                if(this.state.reduce_percent !== 0 && (this.state.max_bonus ===undefined ||this.state.max_bonus < 5000)){
+                if (this.state.reduce_percent !== 0 && (this.state.max_bonus === undefined || this.state.max_bonus < 5000)) {
                     alert("Vui lòng nhập khoảng giảm tối đa, tối thiếu 5.000 VNĐ");
                     return;
                 }
 
                 if (this.state.bonus !== 0 && this.state.conditionMainFee.value !== 0) {
-                    if(this.state.bonus >= parseFloat(this.state.conditionMainFee.value)){
+                    if (this.state.bonus >= parseFloat(this.state.conditionMainFee.value)) {
                         alert("Cước chính phải lớn hơn giá trị giảm");
-                        return; 
+                        return;
                     }
                 }
-                if(this.state.listConditionAdd.length === 0){
+                if (this.state.listConditionAdd.length === 0) {
                     alert("Vui lòng chọn các điều kiện áp dụng");
-                        return;
+                    return;
                 }
 
                 if (this.state.countCoupon === 0 && this.state.manualCoupon === "") {
                     alert("Bạn chưa nhập mã coupon/Số lượng cần tạo.");
-                    return; 
-                    
+                    return;
+
                 }
 
 
@@ -552,7 +571,10 @@ class PromotionCreate extends React.Component {
                         bonus: this.state.bonus,
                         max_bonus: this.state.max_bonus,
                         reduce_percent: this.state.reduce_percent,
-                        condition: this.state.listConditionAdd
+                        condition: this.state.listConditionAdd,
+                        limit_per_partner: this.state.limitPerPartner,
+                        div_bill: this.state.div_bill,
+                        increase_percent: this.state.increase_percent
                     },
                     generate: {
                         count_coupon: this.state.countCoupon,
@@ -567,9 +589,16 @@ class PromotionCreate extends React.Component {
     };
 
     onChangeManualCode = (event) => {
-        
+
         console.log(event.target.value);
         this.setState({ manualCoupon: event.target.value.toUpperCase() });
+    }
+
+    onApplyDeepReduce = (e) => {
+        console.log(e.target.checked);
+        this.setState({
+            applyDeepReduce: e.target.checked
+        })
     }
 
     render() {
@@ -598,17 +627,22 @@ class PromotionCreate extends React.Component {
         // console.log(columnCondition);
         let renderMethod = (<span></span>);
         let renderTextGenerate = "Mã khuyến mãi";
-        if(this.state.method_generate === 'Auto'){
+        if (this.state.method_generate === 'Auto') {
             renderTextGenerate = "Số lượng coupon";
-            renderMethod = (<InputNumber style={{ width: "100%" }} min={1} max={10000} placeholder="Số Coupon" onChange={this.onChangeNumbGen}/>);
-        }else if(this.state.method_generate === "Manual"){
+            renderMethod = (<InputNumber style={{ width: "100%" }} min={1} max={10000} placeholder="Số Coupon" onChange={this.onChangeNumbGen} />);
+        } else if (this.state.method_generate === "Manual") {
             renderTextGenerate = "Mã khuyến mãi";
-            renderMethod = (<Input style={inputStyle} onChange={this.onChangeManualCode} placeholder="Nhập vào mã khuyến mãi" value={this.state.manualCoupon}/>);
+            renderMethod = (<Input style={inputStyle} onChange={this.onChangeManualCode} placeholder="Nhập vào mã khuyến mãi" value={this.state.manualCoupon} />);
         }
 
         let renderTypeReduce = (<span></span>);
         let renderMax = (<span></span>);
         let renderTitleMax = (<span></span>);
+
+        let applyDeepReduce = (<span></span>);
+        let applyDeepPercent = (<span></span>);
+        let applyDeepReduceTitle = (<span></span>);
+
         if (this.state.type_reduce === "Amount") {
             renderTypeReduce = (<InputNumber
                 style={{ width: "100%" }}
@@ -639,6 +673,24 @@ class PromotionCreate extends React.Component {
                 parser={value => value.replace('%', '')}
                 onChange={this.onChangePercentage}
             />);
+
+            applyDeepReduceTitle = (<Label>Khoảng đơn cho 1 lần tăng thêm KM</Label>);
+            applyDeepReduce = (<InputNumber
+                placeholder="Đơn"
+                style={{ width: "50px" }}
+                min={0}
+                max={1000}
+                parser={value => value.replace('%', '')}
+                onChange={this.onChangeDeepPercentage}
+            />);
+            applyDeepPercent = (<InputNumber
+                placeholder="%"
+                style={{ width: "50px" }}
+                min={0}
+                max={1000}
+                parser={value => value.replace('%', '')}
+                onChange={this.onChangeDeepPercent}
+            />)
         }
         //console.log(renderTypeReduce);
 
@@ -697,16 +749,16 @@ class PromotionCreate extends React.Component {
                 title: 'Giá trị',
                 dataIndex: 'value',
                 render: (text, index) => {
-                    
-                    if(index.field === "location" && index.operation === "province"){
-                        return (<b>{index.value.map(item => { return(<p>{item}</p>)})}</b>);
-                    }else{
+
+                    if (index.field === "location" && index.operation === "province") {
+                        return (<b>{index.value.map(item => { return (<p>{item}</p>) })}</b>);
+                    } else {
                         return (
                             <b>{index.value}</b>
                         );
                     }
-                    
-                    
+
+
                 }
             },
             {
@@ -799,20 +851,20 @@ class PromotionCreate extends React.Component {
                                                 </Col>
 
                                                 <Col lg="3" md="3" sm="12">
-                                                <Label for="bonus" style={{ marginBottom: "10px", padding: "10px" }}>Khoảng giảm</Label><br />
+                                                    <Label for="bonus" style={{ marginBottom: "10px", padding: "10px" }}>Khoảng giảm</Label><br />
                                                     {renderTypeReduce}
                                                 </Col>
 
                                                 <Col lg="3" md="3" sm="12">
-                                                    {renderTitleMax}<br/>
+                                                    {renderTitleMax}<br />
                                                     {renderMax}
                                                 </Col>
 
                                                 <Col lg="4" md="4" sm="12">
                                                     <Form.Item>
-                                                        <Label style={{marginBottom:"3px", padding:"10px 0" }} for="basicInput">Kiểu tạo mã coupon</Label>
-                                                        <Select style={{ width: "100%"}} defaultValue="Manual"
-                                                                onChange={this.handleChangeGenerateMethod}>
+                                                        <Label style={{ marginBottom: "3px", padding: "10px 0" }} for="basicInput">Kiểu tạo mã coupon</Label>
+                                                        <Select style={{ width: "100%" }} defaultValue="Manual"
+                                                            onChange={this.handleChangeGenerateMethod}>
                                                             <Option value="Manual">Tạo mã thủ công</Option>
                                                             <Option value="Auto">Tạo mã tự động</Option>
 
@@ -823,9 +875,9 @@ class PromotionCreate extends React.Component {
                                                 <Col lg="2" md="2" sm="12" style={{ marginTop: "15px" }}>
                                                     <FormGroup>
                                                         {/* <Form.Item label={{renderTextGenerate}} hasFeedback> */}
-                                                        <Label style={{marginBottom:"10px", padding:"10px 0" }} for="basicInput">{renderTextGenerate}</Label>
-                                                            {renderMethod}
-                                                            {/* <InputNumber style={{ width: "100%" }} min={1} max={1000} placeholder="Số Coupon" onChange={(value) => this.setState({ countCoupon: value })} /> */}
+                                                        <Label style={{ marginBottom: "10px", padding: "10px 0" }} for="basicInput">{renderTextGenerate}</Label>
+                                                        {renderMethod}
+                                                        {/* <InputNumber style={{ width: "100%" }} min={1} max={1000} placeholder="Số Coupon" onChange={(value) => this.setState({ countCoupon: value })} /> */}
                                                         {/* </Form.Item> */}
                                                     </FormGroup>
                                                 </Col>
@@ -846,6 +898,36 @@ class PromotionCreate extends React.Component {
                                                     </FormGroup>
                                                 </Col>
 
+                                                <Col lg="2" md="2" sm="12" style={{ marginTop: "15px" }}>
+                                                    <FormGroup>
+                                                        <Form.Item label="Giới hạn sử dụng 1 Khách hàng" hasFeedback>
+                                                            {getFieldDecorator('limit_per_partner', {
+                                                                initialValue: this.state.limitPerPartner
+                                                                // rules: [
+                                                                //     {
+                                                                //         required: true,
+                                                                //         message: 'Vui lòng nhập số lần sử dụng',
+                                                                //     }
+                                                                // ],
+                                                            })(<InputNumber style={{ width: "100%" }} min={1} max={100} placeholder="Giới hạn sử dụng"
+                                                                onChange={(value) => this.setState({ limitPerPartner: value })} />)}
+                                                        </Form.Item>
+
+                                                    </FormGroup>
+                                                </Col>
+
+                                                <Col lg="6" md="6" sm="12" style={configStyle}>
+                                                    <Checkbox onChange={this.onApplyDeepReduce}>Áp dụng giảm sâu</Checkbox><br />
+                                                    <Row>
+                                                        <Col lg="12" md="12" sm="12" style={configStyle}>
+                                                            {this.state.applyDeepReduce == true ? (
+                                                                <span>Cứ mỗi {applyDeepReduce} đơn sẽ tăng thêm {applyDeepPercent}</span>) : (<span></span>)}
+
+                                                        </Col>
+                                                    </Row>
+
+                                                </Col>
+
                                                 <Col lg="12" md="12" sm="12" style={configStyle}>
                                                     <FormGroup>
                                                         <Label for="basicInput">Điều kiện áp dụng</Label><br />
@@ -858,7 +940,7 @@ class PromotionCreate extends React.Component {
                                                         >
                                                             <ModalHeader toggle={this.toggleConditionModal}>
                                                                 Thêm điều kiện
-                                                    </ModalHeader>
+                                                            </ModalHeader>
                                                             <ModalBody>
                                                                 <Row>
                                                                     <Col lg="4" md="4" sm="12">
@@ -870,8 +952,17 @@ class PromotionCreate extends React.Component {
                                                                                 className="React"
                                                                                 // defaultValue={optionalImageType[0].value}
                                                                                 onChange={this.handleChangeColumn}>
-                                                                                {this.state.listCondition.map(item =>
-                                                                                    <Option key={item.id} value={item.id + "|" + item.column_condition + "|" + item.column_name}>{item.column_name}</Option>
+                                                                                {this.state.listCondition.map(item => {
+                                                                                    // if(this.state.applyDeepReduce === true){
+                                                                                    //     if(item.column_condition !== 'coun_bill'){
+                                                                                    //         return (<Option key={item.id} value={item.id + "|" + item.column_condition + "|" + item.column_name}>{item.column_name}</Option>);
+                                                                                    //     }
+                                                                                    // }else{
+                                                                                    //     return (<Option key={item.id} value={item.id + "|" + item.column_condition + "|" + item.column_name}>{item.column_name}</Option>);
+                                                                                    // }
+                                                                                    return (<Option key={item.id} value={item.id + "|" + item.column_condition + "|" + item.column_name}>{item.column_name}</Option>);
+                                                                                }
+
                                                                                 )}
                                                                             </Select>
                                                                         </FormGroup>

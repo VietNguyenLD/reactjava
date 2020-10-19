@@ -9,3 +9,15 @@
 @import '~simple-line-icons/css/simple-line-icons.css';
 // Import Main styles for this application
 @import './scss/style.scss';
+.ant-message {
+    margin-top: 100px !important;
+}
+.chonky-tooltip:hover::before {
+    height: 30px !important;
+}
+.chonky-tooltip:active::before {
+    height: 30px !important;
+}
+.chonky-tooltip::before{
+    height: 2em !important;
+}

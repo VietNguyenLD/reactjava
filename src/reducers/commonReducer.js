@@ -7,7 +7,7 @@ export const commonReducer = (state = INIT_STATE, action) => {
   
   const payload=action.payload;
   console.log(payload);
-  switch (action.type) {
+  switch (action.type) { 
     case "APP_LOAD":
       return {
         ...state,

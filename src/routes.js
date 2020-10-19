@@ -8,7 +8,7 @@ const PromotionCreate = React.lazy(() => import('./views/Promotion/General/Promo
 const PromotionDetail = React.lazy(() => import('./views/Promotion/General/PromotionDetail'));
 
 const PromotionReport = React.lazy(() => import('./views/Promotion/Report/PromotionReport'));
-const UploadFileIndex = React.lazy(() => import('./views/uploadFile/UploadFileIndex'));
+// const UploadFileIndex = React.lazy(() => import('./views/uploadFile/UploadFileIndex'));
 
 const ReportBillOnline = React.lazy(() => import('./views/Report/BillOnlineReport'));
 
@@ -23,10 +23,10 @@ const routes = [
   { path: '/promotion/create', exact: true, name: 'Tạo Khuyến mãi', component: PromotionCreate },
 
   { path: '/promotion/detail/:id', exact: true, name: 'Chi tiết khuyến mãi', component: PromotionDetail },
-  
+
   { path: '/promotion/report/:id', exact: true, name: 'Báo cáo sử dụng', component: PromotionReport },
 
-  { path: '/upload', exact: true, name: 'Quản lý file', component: UploadFileIndex },
+  // { path: '/upload', exact: true, name: 'Quản lý file', component: UploadFileIndex },
 ];
 
 export default routes;

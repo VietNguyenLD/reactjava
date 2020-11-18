@@ -15,16 +15,28 @@ export function LoginSuccess(data) {
     };
 }
 
+export function loginFailed(dataLogin){
+    return {
+        type: "LOGIN_FAILED",
+        payload: null,
+        success: false,
+        message: dataLogin.message
+    };
+};
+
 export const LoginSys = (params) => {
     return (dispatch) => {
         dispatch(StartLogin());
-        api.create(API_LOGIN, params, function (response) {
+        api.sigin(API_LOGIN, params, function (response) {
             console.log(response)
             if(response.success == true){
                 localStorage.setItem("promoAuthenticate",response.data.token);
                 localStorage.setItem("UIDD",response.data.userInfo.id);
+                dispatch(LoginSuccess(response))
+            }else{
+                dispatch(loginFailed(response))
             }
-            dispatch(LoginSuccess(response))
+            
         });
     };
 };

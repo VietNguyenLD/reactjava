@@ -39,6 +39,16 @@ export const commonReducer = (state = INIT_STATE, action) => {
         authentication: payload.token ? true : false,
       };
 
+    case 'LOGIN_FAILED':
+          return {
+              ...state,
+              redirectTo: null,
+              authenticate: false,
+              token: null,
+              isLoading: false,
+              message: action.message ? action.message : null,
+          };
+
     case "UNAUTH":
       return {
         authentication: false,

@@ -369,7 +369,7 @@ class PromotionReport extends React.Component {
                         <Row>
                             <Col lg="12" md="12" sm="12" style={configStyle}>
                                 <h3 className="float-left">Danh sách coupon khuyến mãi</h3>
-                                <Button className="float-right" color="warning" onClick={() => this.toggleSummary()}>
+                                <Button className="float-right nt-btn-primary" onClick={() => this.toggleSummary()}>
                                     <i className="icon-chart"></i> Tổng quát
                                 </Button>
 
@@ -396,16 +396,16 @@ class PromotionReport extends React.Component {
 
                                     </ModalBody>
                                     <ModalFooter>
-                                        <Button color="success" onClick={this.exportExcel}>
+                                        <Button className="nt-btn-primary" onClick={this.exportExcel}>
                                             Xuất file
                                         </Button>
-                                        <Button color="success" onClick={this.toggleFilter}>
+                                        <Button className="nt-btn-primary" onClick={this.toggleFilter}>
                                             Đóng
                                         </Button>
                                     </ModalFooter>
                                 </Modal>
 
-                                <Button className="float-right" style={{ marginRight: "10px" }} color="success" onClick={() => this.toggleExportSummary()}>
+                                <Button className="float-right nt-btn-primary" style={{ marginRight: "10px" }} onClick={() => this.toggleExportSummary()}>
                                     <i className="icon-excel"></i> Xuất báo cáo
                                 </Button>
                                 <Modal
@@ -433,7 +433,7 @@ class PromotionReport extends React.Component {
 
                                     </ModalBody>
                                     <ModalFooter>
-                                        <Button color="success" onClick={this.toggleSummary}>
+                                        <Button className="nt-btn-primary" onClick={this.toggleSummary}>
                                             Đóng
                                         </Button>
                                     </ModalFooter>
@@ -460,7 +460,7 @@ class PromotionReport extends React.Component {
 
                                     </ModalBody>
                                     <ModalFooter>
-                                        <Button color="success" onClick={this.toggleListUsed}>
+                                        <Button className="nt-btn-primary" onClick={this.toggleListUsed}>
                                             Đóng
                                         </Button>
                                     </ModalFooter>
@@ -480,10 +480,10 @@ class PromotionReport extends React.Component {
                                         </Select>
                                     </Col>
                                     <Col lg="4" md="4" sm="12">
-                                        <Button className="float-right" color="danger" onClick={() => this.filterReset()}>
+                                        <Button className="float-right nt-btn-primary" onClick={() => this.filterReset()}>
                                             <i className="icon-close"></i> Bỏ lọc
                                     </Button>
-                                        <Button className="float-right" style={{ marginRight: "10px" }} color="warning" onClick={() => this.filterCoupon()}>
+                                        <Button className="float-right nt-btn-primary" style={{ marginRight: "10px" }} onClick={() => this.filterCoupon()}>
                                             <i className="icon-magic-wand"></i> Tìm
                                     </Button>
                                     </Col>

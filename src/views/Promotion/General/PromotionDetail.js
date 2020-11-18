@@ -806,7 +806,7 @@ class PromotionDetail extends React.Component {
                                                 <Col lg="12" md="12" sm="12" style={configStyle}>
                                                     <FormGroup>
                                                         <Label for="basicInput">Điều kiện áp dụng</Label><br />
-                                                        <Button disabled="true" color="warning" onClick={() => this.toggleCondition()}>Thêm điều kiện khuyến mãi</Button>
+                                                        <Button disabled="true" className="nt-btn-primary" onClick={() => this.toggleCondition()}>Thêm điều kiện khuyến mãi</Button>
                                                         <Modal
                                                             isOpen={this.state.conditionModal}
                                                             toggle={this.toggleCondition}
@@ -911,7 +911,7 @@ class PromotionDetail extends React.Component {
                                 </Col>
                                 <Col md="12" lg="12" sm="12">
                                     <Form.Item>
-                                        <Button className="float-right" color="warning" htmltype="submit">
+                                        <Button className="float-right nt-btn-primary" htmltype="submit">
                                             Cập nhật khuyến mãi
                                     </Button>
                                         <ToastContainer />

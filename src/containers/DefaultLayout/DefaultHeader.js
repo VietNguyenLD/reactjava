@@ -51,7 +51,7 @@ class DefaultHeader extends Component {
         <div style={{backgroundColor: "#fff"}}>
           <AppSidebarToggler className="d-lg-none" display="md" mobile />
           <AppNavbarBrand
-            full={{ src: "./../assets/img/ntx.png", width: 100, alt: 'NTX Logo' }}
+            full={{ src: "/assets/img/ntx.png", width: 100, alt: 'NTX Logo' }}
             minimized={{ src: "https://webdev.ntx.com.vn/images/desktop/ntx-32x32.ico", alt: 'NTX Logo' }}
           />
         </div>

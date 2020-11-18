@@ -100,8 +100,8 @@ class Login extends Component {
                   <CardBody className="text-center">
                     <div>
 
-                      <img alt="ntl-logo" src='./../../../assets/img/ntx.png' />
-                      <p style={{marginTop:"25px"}}>Hệ thống các chương trình Khuyến mãi Nhất Tín Logistics</p>
+                      <img alt="ntl-logo" src='./../../../assets/img/ntx.png' style={{backgroundColor: "white"}}/>
+                      <p style={{marginTop:"25px"}}>Hệ thống các chương trình Khuyến mãi Nhất Tín Express</p>
                     </div>
                   </CardBody>
                 </Card>

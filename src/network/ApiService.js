@@ -214,7 +214,7 @@ export function setParams(params) {
 }
 
 export function catchError(error) {
-  if (error.response.status === 404) {
+  if (error.response?.status === 404) {
     // history.push("#/404");
     Modal.error({
       title: 'Thông Báo',

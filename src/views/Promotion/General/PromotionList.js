@@ -148,7 +148,7 @@ class PromotionList extends React.Component {
                                 <h3>Quản lý chương trình khuyến mãi</h3>
                             </Col>
                             <Col lg="3" md="3" sm="12">
-                                <Button color="warning" className="float-right" onClick={() => this.handleAddPromotion()}>Thêm CT Khuyến mãi</Button>
+                                <Button className="float-right nt-btn-primary" onClick={() => this.handleAddPromotion()}>Thêm CT Khuyến mãi</Button>
                             </Col>
                         </Row>
                     </CardTitle>

@@ -21,3 +21,32 @@
 .chonky-tooltip::before{
     height: 2em !important;
 }
+Button.nt-btn-primary,
+input.nt-btn-primary {
+  background-color: #00428d !important;
+  color: #fff !important;
+}
+.sidebar{
+    background-color: rgb(240, 240, 240) !important;
+}
+.sidebar .nav-link:hover {
+    color: #fff !important;
+    background: #20a8d8 !important;
+}
+.sidebar .nav-link{
+    color: rgba(0, 0, 0, 0.65) !important;
+    background:  rgb(240, 240, 240) !important
+}
+.sidebar-minimized .sidebar .sidebar-minimizer{
+    background-color: #00428d !important;
+}
+.sidebar .sidebar-minimizer{
+    background-color: #00428d !important;
+}
+.sidebar .nav-link.active {
+    color: #fff !important;
+    background-color: #00428d !important;
+}
+.app-header{
+    background-color: #00428d !important;
+}

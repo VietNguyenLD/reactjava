@@ -303,7 +303,7 @@ class BillOnlineReport extends React.Component {
                             </Col>
 
                             <Col lg="6" md="6" sm="12" style={configStyle}>
-                                <Button className="float-right" style={{ marginRight: "10px" }} color="success" onClick={() => this.toggleExportSummary()}>
+                                <Button className="float-right nt-btn-primary" style={{ marginRight: "10px" }} onClick={() => this.toggleExportSummary()}>
                                     <i className="icon-excel"></i> Xuất báo cáo
                                 </Button>
                             </Col>

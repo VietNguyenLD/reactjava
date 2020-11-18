@@ -9,9 +9,6 @@ import { Select } from 'antd';
 import routes from '../../routes';
 const { Option } = Select;
 
-// import logo from 'https://cdn.ntlogistics.vn/images/logo_black_yellow'
-// import sygnet from '../../assets/img/brand/sygnet.svg'
-
 const propTypes = {
   children: PropTypes.node,
 };
@@ -51,11 +48,13 @@ class DefaultHeader extends Component {
 
     return (
       <React.Fragment>
-        <AppSidebarToggler className="d-lg-none" display="md" mobile />
-        <AppNavbarBrand
-          full={{ src: "https://cdn.ntlogistics.vn/images/logo_black_yellow", width: 100, alt: 'NTL Logo' }}
-          minimized={{ src: "https://cdn.ntlogistics.vn/images/favicon.png", alt: 'NTL Logo' }}
-        />
+        <div style={{backgroundColor: "#fff"}}>
+          <AppSidebarToggler className="d-lg-none" display="md" mobile />
+          <AppNavbarBrand
+            full={{ src: "./../assets/img/ntx.png", width: 100, alt: 'NTX Logo' }}
+            minimized={{ src: "https://webdev.ntx.com.vn/images/desktop/ntx-32x32.ico", alt: 'NTX Logo' }}
+          />
+        </div>
         <AppSidebarToggler className="d-md-down-none" display="lg" />
 
         <Nav className="d-md-down-none" navbar>

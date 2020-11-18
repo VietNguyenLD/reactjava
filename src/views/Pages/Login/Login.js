@@ -87,20 +87,20 @@ class Login extends Component {
                       </FormItem>
                       <Row>
                         <Col xs="6">
-                          <Button style={inputStyle} type="primary" htmlType="submit" loading={inProgress}>Đăng nhập</Button>
+                          <Button className="nt-btn-primary" style={inputStyle} type="primary" htmlType="submit" loading={inProgress}>Đăng nhập</Button>
                         </Col>
                         <Col xs="6" className="text-right">
-                          <Button style={inputStyle} type="link" disabled={inProgress}>Quên mật khẩu?</Button>
+                          <Button className="nt-btn-primary" style={inputStyle} type="link" disabled={inProgress}>Quên mật khẩu?</Button>
                         </Col>
                       </Row>
                     </Form>
                   </CardBody>
                 </Card>
-                <Card className="text-white py-5 d-md-down-none" style={{ width: '44%', background:"#000" }}>
+                <Card className="text-white py-5 d-md-down-none" style={{ width: '44%', background:"#00428d" }}>
                   <CardBody className="text-center">
                     <div>
 
-                      <img alt="ntl-logo" src='./../../../assets/img/logo_black_yellow.png' />
+                      <img alt="ntl-logo" src='./../../../assets/img/ntx.png' />
                       <p style={{marginTop:"25px"}}>Hệ thống các chương trình Khuyến mãi Nhất Tín Logistics</p>
                     </div>
                   </CardBody>

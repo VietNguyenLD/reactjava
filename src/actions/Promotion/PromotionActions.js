@@ -218,7 +218,7 @@ export function ExportBOSuccess(data) {
 export const ExportBOReport = (params) => {
     return (dispatch) => {
         dispatch(StartExportBO());
-        api.exportExcel("v1/exportReport", params, function (response) {
+        api.exportExcel("v1/export-report", params, function (response) {
             console.log(response)
             dispatch(ExportBOSuccess(response))
         });

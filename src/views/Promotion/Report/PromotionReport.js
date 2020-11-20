@@ -41,8 +41,8 @@ const configStyle = {
 };
 
 const btnNTL = {
-    color: "#f9d907",
-    background: "#000"
+    color: "#fff",
+    background: "#00428d"
 };
 
 const EditableContext = React.createContext();

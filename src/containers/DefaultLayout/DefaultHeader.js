@@ -48,7 +48,7 @@ class DefaultHeader extends Component {
 
     return (
       <React.Fragment>
-        <div style={{backgroundColor: "#fff"}}>
+        <div style={{backgroundColor: "#fff", width: 200}}>
           <AppSidebarToggler className="d-lg-none" display="md" mobile />
           <AppNavbarBrand
             full={{ src: "/assets/img/ntx.png", width: 100, alt: 'NTX Logo' }}
@@ -57,7 +57,7 @@ class DefaultHeader extends Component {
         </div>
         <AppSidebarToggler className="d-md-down-none" display="lg" />
 
-        <Nav className="d-md-down-none" navbar>
+        {/* <Nav className="d-md-down-none" navbar>
           <Select
             showSearch
             style={{ width: 200 }}
@@ -76,7 +76,7 @@ class DefaultHeader extends Component {
                 return <Option key={`build_${item.name}`} value={item.path}>{item.name}</Option>
             })}
           </Select>
-        </Nav>
+        </Nav> */}
 
         <Nav className="ml-auto" navbar>
           

@@ -9,16 +9,26 @@ let endpoint = API_URL;
 /*-----------------------------GET ALL----------------------------------------*/
 export function getAll(api_name, params, callback) {
   let _apiUrl = endpoint + api_name;
-  let _headers = setHeaders();
+  // let _headers = setHeaders();
   let _params = setParams(params);
   let _authorization = localStorage.getItem(TOKEN);
-  axios.defaults.headers.common['Authorization'] = _authorization;
+  debugger
+  let _headers = {
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8',
+      'Authorization': localStorage.getItem(TOKEN),
+      'Access-Control-Allow-Origin': '*'
+    }
+  };
+
+  // axios.defaults.headers.common['Authorization'] = _authorization;
 
   axios.get(_apiUrl, _params, _headers).then(function (response) {
     console.log(response);
     callback(response.data);
   }).catch(error => {
-    catchError(error);
+    console.log(error)
+    // catchError(error);
   });
 }
 

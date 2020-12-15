@@ -1,5 +1,5 @@
 import * as api from './../network/ApiService';
-export const API_LOGIN = "v1/be-signIn";
+export const API_LOGIN = "authenticate";
 
 export function StartLogin() {
     return { type: 'START_LOGIN' };
@@ -8,9 +8,9 @@ export function StartLogin() {
 export function LoginSuccess(data) {
     return {
         type: 'LOGIN_SUCCESS',
-        payload: data.data,
-        success: data.success,
-        message: data.message
+        payload: data.token,
+        success: true,
+        message: "Get token success"
         // last_page: data.paging.last_page,
     };
 }
@@ -20,7 +20,7 @@ export function loginFailed(dataLogin){
         type: "LOGIN_FAILED",
         payload: null,
         success: false,
-        message: dataLogin.message
+        message: "Get token fail"
     };
 };
 
@@ -29,14 +29,13 @@ export const LoginSys = (params) => {
         dispatch(StartLogin());
         api.sigin(API_LOGIN, params, function (response) {
             console.log(response)
-            if(response.success == true){
-                localStorage.setItem("promoAuthenticate",response.data.token);
-                localStorage.setItem("UIDD",response.data.userInfo.id);
+            if(typeof response.token !== undefined){
+                localStorage.setItem("promoAuthenticate",'Bearer '+response.token);
                 dispatch(LoginSuccess(response))
             }else{
                 dispatch(loginFailed(response))
             }
-            
+
         });
     };
 };

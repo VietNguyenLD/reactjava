@@ -4,18 +4,16 @@ const INIT_STATE = {
 };
 
 export const commonReducer = (state = INIT_STATE, action) => {
-  
+
   const payload=action.payload;
   console.log(payload);
-  switch (action.type) { 
+  switch (action.type) {
     case "APP_LOAD":
       return {
         ...state,
         token: action.token || null,
         redirectTo: payload ? null : '/login',
         appLoaded: true,
-        currentUser: action.payload ? action.payload : {},
-        // authentication: action.token && (action.token.length === 36),
       };
 
     case "REDIRECT":
@@ -33,10 +31,9 @@ export const commonReducer = (state = INIT_STATE, action) => {
     case "LOGIN_SUCCESS":
       return {
         ...state,
-        redirectTo: payload.token ? '/dashboard' : null,
-        token: payload.token ? action.payload.token : null,
-        currentUser: payload.token ? action.payload.userInfo.userProfile : null,
-        authentication: payload.token ? true : false,
+        redirectTo: payload ? '/dashboard' : null,
+        token: payload ? action.payload : null,
+        authentication: payload ? true : false,
       };
 
     case 'LOGIN_FAILED':
@@ -61,5 +58,5 @@ export const commonReducer = (state = INIT_STATE, action) => {
       return state;
   }
 }
-  
+
 export default commonReducer;

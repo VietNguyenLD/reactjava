@@ -26,8 +26,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch({ type: "APP_LOAD", payload, token, skipTracking: true }),
   onRedirect: () =>
     dispatch({ type: "REDIRECT" }),
-  // hasError: () =>
-  //   dispatch({ type: HAS_ERROR }),
+
 });
 
 const mapStateToProps = state => {

@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { history } from "./../../../history";
-import { Spin, DatePicker, Table, Select, InputNumber, Popconfirm, Form, Collapse, Input, Icon } from 'antd';
+import { Form, Input } from 'antd';
 import { Button, Card, CardBody, CardGroup, Col, Container, Row } from 'reactstrap';
 import { LoginSys } from './../../../actions/authActions';
 
@@ -32,17 +31,12 @@ class Login extends Component {
     }
   }
 
-  submitForm = e => {
-    e.preventDefault();
-
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        const params = {
-          username: values.username,
-          password: values.password,
-        };
-        this.props.LoginSys(params);
-      }});
+  submitForm = value => {
+    const params = {
+      username: 'javainuse',
+      password: 'password',
+    };
+    this.props.LoginSys(params);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -57,8 +51,8 @@ class Login extends Component {
   render() {
 
     const { inProgress, form } = this.props;
-    const { getFieldDecorator } = form;
     console.log(this.props)
+
     return (
       <div className="app flex-row align-items-center">
         <Container>
@@ -67,32 +61,38 @@ class Login extends Component {
               <CardGroup>
                 <Card className="p-4">
                   <CardBody>
-                    <Form onSubmit={this.submitForm} labelAlign='left'>
+                    <Form onFinish={this.submitForm} labelAlign='left' id="login">
                       <h1>Đăng nhập</h1>
                       <FormItem>
-                        {getFieldDecorator('username', {
-                          rules: [
-                            { required: true, message: 'Nhập tài khoản' },
-                          ],
-                          initialValue: '',
-                        })(<Input type="text" addonBefore={<Icon type="user" />} placeholder="Username" name="username" />)}
+                        <Input type="text" placeholder="Username" name="username" />
                       </FormItem>
                       <FormItem>
-                        {getFieldDecorator('password', {
-                          rules: [
-                            { required: true, message: 'Nhập mật khẩu' },
-                          ],
-                          initialValue: '',
-                        })(<Input.Password addonBefore={<Icon type="lock" />} type="password" placeholder="Password" name="password" />)}
+                        <Input.Password type="password" placeholder="Password" name="password" />
                       </FormItem>
-                      <Row>
-                        <Col xs="6">
-                          <Button className="nt-btn-primary" style={inputStyle} type="primary" htmlType="submit" loading={inProgress}>Đăng nhập</Button>
-                        </Col>
-                        <Col xs="6" className="text-right">
-                          <Button className="nt-btn-primary" style={inputStyle} type="link" disabled={inProgress}>Quên mật khẩu?</Button>
-                        </Col>
-                      </Row>
+                      <FormItem>
+                        <Button
+                          className="nt-btn-primary"
+                          style={inputStyle}
+                          form='login'
+                          type="submit"
+                          htmlType="submit"
+                          loading={inProgress}>Đăng nhập</Button>
+                      </FormItem>
+                      {/*<Row>*/}
+                      {/*  <Col xs="6">*/}
+                      {/*    <Button*/}
+                      {/*      className="nt-btn-primary"*/}
+                      {/*      style={inputStyle}*/}
+                      {/*      form='login'*/}
+                      {/*      type="submit"*/}
+                      {/*      htmlType="submit"*/}
+                      {/*      loading={inProgress}>Đăng nhập</Button>*/}
+                      {/*  </Col>*/}
+                      {/*  <Col xs="6" className="text-right">*/}
+                      {/*    <Button className="nt-btn-primary"*/}
+                      {/*            disabled={inProgress}>Quên mật khẩu?</Button>*/}
+                      {/*  </Col>*/}
+                      {/*</Row>*/}
                     </Form>
                   </CardBody>
                 </Card>
@@ -109,6 +109,9 @@ class Login extends Component {
             </Col>
           </Row>
         </Container>
+        <Button onClick={this.submitForm}>
+          Click
+        </Button>
       </div>
     );
   }
@@ -124,7 +127,6 @@ function mapStateToProps(state) {
   };
 }
 
-const _form = Form.create({ name: 'LogIn' })(Login)
 
 export default connect(mapStateToProps,
   {
@@ -137,6 +139,6 @@ export default connect(mapStateToProps,
     // UpdatePromotion,
     // CreatePromotion
   })
-  (_form);
+  (Login);
 
 // export default Login;

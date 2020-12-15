@@ -10,13 +10,13 @@ const PromotionDetail = React.lazy(() => import('./views/Promotion/General/Promo
 const PromotionReport = React.lazy(() => import('./views/Promotion/Report/PromotionReport'));
 // const UploadFileIndex = React.lazy(() => import('./views/uploadFile/UploadFileIndex'));
 
-const ReportBillOnline = React.lazy(() => import('./views/Report/BillOnlineReport'));
+const UserInde = React.lazy(() => import('./views/Users/UserIndex'));
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/zone', exact: true, name: 'Zone', component: ZoneList },
 
-  { path: '/reportRevenue', exact: true, name: 'Báo cáo Bill Online', component: ReportBillOnline },
+  { path: '/users', exact: true, name: 'Dánh sách user', component: UserInde },
 
   { path: '/promotion', exact: true, name: 'Khuyến mãi', component: PromotionList },
 

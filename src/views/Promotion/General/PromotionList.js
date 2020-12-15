@@ -56,12 +56,12 @@ class PromotionList extends React.Component {
     componentDidUpdate(prevProps, prevState) {
         if (this.props.PromotionReducer.dataList !== prevProps.PromotionReducer.dataList) {
             if(this.props.PromotionReducer.dataList !== null && this.props.PromotionReducer.dataList !== undefined){
-                this.setState({ 
+                this.setState({
                     listPromotion: this.props.PromotionReducer.dataList,
                     totalRecord: this.props.PromotionReducer.dataList.length
                  });
             }
-           
+
         }
     }
 
@@ -136,7 +136,7 @@ class PromotionList extends React.Component {
                 },
                 },
             ]
-            
+
         };
 
         return (

@@ -15,8 +15,8 @@ export default {
     //   ],
     // },
     {
-      name:"Báo cáo Bill Online",
-      url:"/reportRevenue",
+      name:"Quản lý user",
+      url:"/users",
       icon:"icon-notebook"
     },
     {

@@ -6,7 +6,6 @@
 #
 # # production
 /build
-/src/config/Config.js
 #
 # # misc
 package-lock.json
